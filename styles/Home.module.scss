@@ -1,0 +1,29 @@
+@import "variables";
+
+.background {
+  width: 100wh;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -100;
+}
+
+// background image based on weather
+.ss_clear {
+  background-image: $ss_norain_background;
+}
+.ss_rain {
+  background-image: $ss_rain_background;
+}
+.fall {
+  background-image: $fall_background;
+}
+.winter {
+  background-image: $winter_background;
+}
+
+.container {
+  padding: 40px;
+  backdrop-filter: blur(10px) drop-shadow(4px 4px 10px rgb(19, 19, 233));
+}
