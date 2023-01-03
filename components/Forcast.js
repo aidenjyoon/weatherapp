@@ -1,15 +1,12 @@
-import { getForcast, getGeocoding } from "../helpers/utils";
 import { useState, useRef } from "react";
 import styles from "./Forcast.module.scss";
 
 const Forcast = () => {
-  const city_name = "Glendale";
-  const state_code = "CA";
-  const country_code = "US";
-  let geocode = "a";
-
   const zipInputRef = useRef();
   const countryInputRef = useRef();
+
+  const [weatherData, setWeatherData] = useState();
+  const [temp, setTemp] = useState(0);
 
   const submitFormZipcodeHandler = (event) => {
     event.preventDefault();
@@ -22,7 +19,7 @@ const Forcast = () => {
     const reqBody = { zipcode: enteredZip, country_code: enteredCountry };
     // console.log("reqBody:", JSON.stringify(reqBody));
 
-    fetch("/api/geocode", {
+    fetch("/api/weather", {
       // will be _sending_ data to server
       method: "POST",
 
@@ -36,10 +33,30 @@ const Forcast = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => console.log("asdf", data))
+      .then((data) => {
+        console.log("asdf", data);
+        return fetch(
+          "https://weatherapp-991a2-default-rtdb.firebaseio.com/weather.json",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      })
       .catch((error) => console.log(error));
     // .then((response) => response.text()) //console.log("THIS IS IN INDEX: ", data));
     // .then((text) => console.log(text));
+
+    // fetch("https://weatherapp-991a2-default-rtdb.firebaseio.com/weather.json", {
+    //   method: "POST",
+    //   body: JSON.stringify(weatherData),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
   };
 
   return (

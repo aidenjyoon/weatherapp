@@ -3,24 +3,23 @@ import path from "path";
 
 const API_KEY = process.env.API_KEY;
 
-const connectSQL = async () => {
-  const mysql = require("mysql");
-  const connection = mysql.createConnection({
-    host: "137.25.13.199",
-    user: "u851317042_weatherApp",
-    password: "gBwz2wRLFi#pNTa",
-  });
+// const connectSQL = async () => {
+//   const mysql = require("mysql");
+//   const connection = mysql.createConnection({
+//     host: "137.25.13.199",
+//     user: "u851317042_weatherApp",
+//     password: "gBwz2wRLFi#pNTa",
+//   });
 
-  connection.connect((error) => {
-    if (error) {
-      console.log("Error connecting to the MySQL Database");
-      return;
-    }
-    console.log("Connection established sucessfully");
-    return "connected to mysql";
-  });
-  connection.end((error) => {});
-};
+//   connection.connect((error) => {
+//     if (error) {
+//       console.log("Error connecting to the MySQL Database");
+//       return;
+//     }
+//     console.log("Connection established sucessfully");
+//   });
+//   connection.end((error) => {});
+// };
 
 const getFilePath = (purpose) => {
   if (purpose === "geocode") {
@@ -105,19 +104,13 @@ const handler = async (req, res) => {
     const temp = forcast5d3h["list"][0]["main"]["temp"];
     const temp_feelsLike = forcast5d3h["list"][0]["main"]["feels_like"];
 
-    const mysql_res = await connectSQL();
-
     res.status(200).json({
       message: "success!",
-      // zipcode: zipcode,
-      // country_code: country_code,
-      // data: data,
       geocode: geocode,
       forcast: forcast5d3h,
       temp: temp,
       time: formattedTime,
       local_offset: local_offsetSec,
-      SQL_RES: mysql_res,
     });
   }
 
